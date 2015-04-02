@@ -184,11 +184,45 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      var n = this.get('n');
+      var count = 0;
+      var column = minorDiagonalColumnIndexAtFirstRow; 
+      for (var row = 0; row <= minorDiagonalColumnIndexAtFirstRow; row++) {
+        var position = this.get(row)[column];
+        if (position) {
+          count ++;
+        };
+        if (count > 1) {
+          return true;
+        } 
+        column --;
+        // if the diagonal for one cube contains another queen return false
+      }
+
+      var column = n-1;
+      var count = 0;
+      for (var row = (n-minorDiagonalColumnIndexAtFirstRow-1); row < n; row ++) {
+        var position = this.get(row)[column];
+        if (position) {
+          count ++;
+        }
+        if (count > 1) {
+          return true;
+        }
+        column --;
+      }
+      
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var n = this.get('n');
+      for (var i = 0; i < n; i ++) {
+        if(this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     }
 
